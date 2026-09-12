@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Inventaris Sekolah</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="header">
+
+    <div>
+      <p class="small-title">SISTEM INFORMASI SEKOLAH</p>
+
+      <h1>📦 Inventaris Sekolah</h1>
+
+      <p>
+        Kelola data barang sekolah dengan mudah.
+      </p>
+    </div>
+
+    <button id="refreshBtn" class="btn refresh">
+      🔄 Refresh
+    </button>
+
+  </header>
+
+
+  <main class="container">
+
+    <!-- STATISTIK -->
+
+    <section class="stats">
+
+      <div class="stat-card">
+        <div class="icon">📦</div>
+
+        <div>
+          <h2 id="totalJenis">0</h2>
+          <p>Jenis Barang</p>
+        </div>
+      </div>
+
+
+      <div class="stat-card">
+        <div class="icon">🔢</div>
+
+        <div>
+          <h2 id="totalBarang">0</h2>
+          <p>Total Barang</p>
+        </div>
+      </div>
+
+
+      <div class="stat-card">
+        <div class="icon">✅</div>
+
+        <div>
+          <h2 id="baikCount">0</h2>
+          <p>Kondisi Baik</p>
+        </div>
+      </div>
+
+
+      <div class="stat-card">
+        <div class="icon">⚠️</div>
+
+        <div>
+          <h2 id="rusakCount">0</h2>
+          <p>Perlu Perbaikan</p>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- DATA -->
+
+    <section class="panel">
+
+      <div class="panel-header">
+
+        <div>
+          <h2>📋 Data Inventaris</h2>
+
+          <p>
+            Data tersimpan secara otomatis di Google Sheets.
+          </p>
+        </div>
+
+        <button id="addBtn" class="btn primary">
+          ＋ Tambah Barang
+        </button>
+
+      </div>
+
+
+      <!-- SEARCH -->
+
+      <div class="toolbar">
+
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="🔎 Cari barang..."
+        >
+
+
+        <select id="categoryFilter">
+
+          <option value="">
+            Semua Kategori
+          </option>
+
+        </select>
+
+
+        <select id="conditionFilter">
+
+          <option value="">
+            Semua Kondisi
+          </option>
+
+          <option value="Baik">
+            Baik
+          </option>
+
+          <option value="Rusak Ringan">
+            Rusak Ringan
+          </option>
+
+          <option value="Rusak Berat">
+            Rusak Berat
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div id="status" class="status">
+        Memuat data...
+      </div>
+
+
+      <!-- TABLE -->
+
+      <div class="table-container">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>No</th>
+
+              <th>Kode</th>
+
+              <th>Nama Barang</th>
+
+              <th>Kategori</th>
+
+              <th>Jumlah</th>
+
+              <th>Kondisi</th>
+
+              <th>Lokasi</th>
+
+              <th>Penanggung Jawab</th>
+
+              <th>Aksi</th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody id="inventoryBody">
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <div id="emptyState" class="empty">
+
+        <div>📭</div>
+
+        <h3>Belum ada data</h3>
+
+        <p>
+          Tambahkan barang untuk mulai menggunakan inventaris.
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- MODAL -->
+
+  <div id="modal" class="modal hidden">
+
+    <div class="modal-box">
+
+      <div class="modal-header">
+
+        <h2 id="modalTitle">
+          Tambah Barang
+        </h2>
+
+        <button
+          id="closeModal"
+          class="close"
+        >
+          ✕
+        </button>
+
+      </div>
+
+
+      <form id="inventoryForm">
+
+        <input
+          type="hidden"
+          id="editRow"
+        >
+
+
+        <div class="form-grid">
+
+
+          <div class="form-group">
+
+            <label>
+              Kode Barang
+            </label>
+
+            <input
+              type="text"
+              id="kode"
+              placeholder="INV-001"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Nama Barang
+            </label>
+
+            <input
+              type="text"
+              id="nama"
+              placeholder="Laptop"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Kategori
+            </label>
+
+            <input
+              type="text"
+              id="kategori"
+              placeholder="Elektronik"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Jumlah
+            </label>
+
+            <input
+              type="number"
+              id="jumlah"
+              min="0"
+              value="1"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Kondisi
+            </label>
+
+            <select id="kondisi">
+
+              <option value="Baik">
+                Baik
+              </option>
+
+              <option value="Rusak Ringan">
+                Rusak Ringan
+              </option>
+
+              <option value="Rusak Berat">
+                Rusak Berat
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Lokasi
+            </label>
+
+            <input
+              type="text"
+              id="lokasi"
+              placeholder="Lab Komputer"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group full">
+
+            <label>
+              Penanggung Jawab
+            </label>
+
+            <input
+              type="text"
+              id="penanggungJawab"
+              placeholder="Nama guru/petugas"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="form-buttons">
+
+          <button
+            type="button"
+            id="cancelBtn"
+            class="btn cancel"
+          >
+            Batal
+          </button>
+
+
+          <button
+            type="submit"
+            class="btn primary"
+          >
+            💾 Simpan
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
