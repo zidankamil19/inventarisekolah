@@ -4,7 +4,7 @@
 
 // GANTI BAGIAN INI
 const API_URL =
-  "PASTE_URL_GOOGLE_APPS_SCRIPT_DI_SINI";
+  "https://script.google.com/macros/s/AKfycbzSJW_cBgn6LbjFd6XWlrF16UcoD6eJIuTtReg8K4h4JnmhniKmoyZ6_7Cs8QdW6L9PzA/exec";
 
 
 // ========================================
